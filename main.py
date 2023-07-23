@@ -1,5 +1,6 @@
 import speech_recognition as sr
 from googletrans import Translator
+import logging
 
 def translate_speech_to_english():
     recognizer = sr.Recognizer()
@@ -11,18 +12,18 @@ def translate_speech_to_english():
 
         try:
             text = recognizer.recognize_google(audio, language="es-ES")
-            print("Texto reconocido: ", text)
+            logging.info("Texto reconocido: ", text)
 
             translator = Translator()
             translated_text = translator.translate(text, dest="en").text
-            print("Traducción a inglés: ", translated_text)
+            logging.info("Traducción a inglés: ", translated_text)
 
         except sr.UnknownValueError:
-            print("No se pudo reconocer el habla.")
+            logging.error("No se pudo reconocer el habla.")
         except sr.RequestError as e:
-            print("Error al solicitar los resultados del servicio de reconocimiento de voz; {0}".format(e))
+            logging.error("Error al solicitar los resultados del servicio de reconocimiento de voz; {0}".format(e))
         except Exception as e:
-            print("Error en la traducción; {0}".format(e))
+            logging.error("Error en la traducción; {0}".format(e))
 
 if __name__ == "__main__":
     translate_speech_to_english()
